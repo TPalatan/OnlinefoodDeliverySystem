@@ -1,0 +1,60 @@
+﻿@model List<OnlinefoodDeliverySystem.Models.FoodData>
+
+@{
+    ViewData["Title"] = "Orders List";
+}
+
+<div class="container mt-4">
+    <h2 class="mb-4 text-center">📋 All Orders</h2>
+
+    <!-- Create Order Button -->
+    <div class="text-end mb-3">
+        <a asp-action="CreateOrder" class="btn btn-primary btn-lg">
+            ➕ Create New Order
+        </a>
+    </div>
+
+    <!-- Table of Orders -->
+    <table class="table table-striped table-bordered text-center">
+        <thead class="table-dark">
+            <tr>
+                <th>Order ID</th>
+                <th>Customer</th>
+                <th>Restaurant</th>
+                <th>Food Item</th>
+                <th>Total Price</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model != null && Model.Any())
+            {
+                foreach (var order in Model)
+                {
+                    <tr>
+                        <td>@order.orderId</td>
+                        <td>@order.customerName</td>
+                        <td>@order.restaurantName</td>
+                        <td>@order.foodItem</td>
+                        <td>@order.totalPrice</td>
+                        <td>@order.status</td>
+                        <td>
+                            <a asp-action="Edit" asp-route-id="@order.orderId" class="btn btn-warning btn-sm">✏ Edit</a>
+                            <a asp-action="Delete" asp-route-id="@order.orderId" class="btn btn-danger btn-sm"
+                               onclick="return confirm('Are you sure you want to delete this order?');">
+                                🗑 Delete
+                            </a>
+                        </td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="7" class="text-muted">No orders found. Click "Create New Order" to add one.</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

@@ -1,0 +1,80 @@
+﻿@model OnlinefoodDeliverySystem.Models.FoodData
+
+@{
+    ViewData["Title"] = "Create Order";
+    var foodItems = ViewBag.FoodItems as List<(string Name, int Price)>; // Get from controller
+}
+
+<div class="container mt-4">
+    <h2 class="mb-4 text-center">➕ Create New Order</h2>
+
+    <form asp-action="CreateOrder" method="post" class="p-4 shadow rounded bg-light">
+        <div class="mb-3">
+            <label asp-for="orderId" class="form-label"></label>
+            <input asp-for="orderId" class="form-control" readonly />
+            <span asp-validation-for="orderId" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="customerName" class="form-label"></label>
+            <input asp-for="customerName" class="form-control" placeholder="Enter Customer Name" />
+            <span asp-validation-for="customerName" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="restaurantName" class="form-label"></label>
+            <input asp-for="restaurantName" class="form-control" placeholder="Enter Restaurant Name" />
+            <span asp-validation-for="restaurantName" class="text-danger"></span>
+        </div>
+
+        <!-- ✅ Food Item Dropdown -->
+        <div class="mb-3">
+            <label asp-for="foodItem" class="form-label"></label>
+            <select asp-for="foodItem" class="form-select" id="foodItem" onchange="setPrice()">
+                <option value="">-- Select Food Item --</option>
+                @foreach (var item in foodItems)
+                {
+                    <option value="@item.Name" data-price="@item.Price">
+                        @item.Name - ₱@item.Price
+                    </option>
+                }
+            </select>
+            <span asp-validation-for="foodItem" class="text-danger"></span>
+        </div>
+
+        <!-- ✅ Price Auto-Fill -->
+        <div class="mb-3">
+            <label asp-for="totalPrice" class="form-label"></label>
+            <input asp-for="totalPrice" id="totalPrice" class="form-control" type="number" placeholder="Auto-filled Price" readonly />
+            <span asp-validation-for="totalPrice" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="status" class="form-label"></label>
+            <select asp-for="status" class="form-select">
+                <option value="">-- Select Status --</option>
+                <option value="Pending">Pending</option>
+                <option value="Preparing">Preparing</option>
+                <option value="Delivered">Delivered</option>
+            </select>
+            <span asp-validation-for="status" class="text-danger"></span>
+        </div>
+
+        <div class="text-end">
+            <button type="submit" class="btn btn-success me-2">💾 Save Order</button>
+            <a asp-action="Orders" class="btn btn-secondary">⬅ Back</a>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        function setPrice() {
+            let dropdown = document.getElementById("foodItem");
+            let selected = dropdown.options[dropdown.selectedIndex];
+            let price = selected.getAttribute("data-price");
+            document.getElementById("totalPrice").value = price || "";
+        }
+    </script>
+}

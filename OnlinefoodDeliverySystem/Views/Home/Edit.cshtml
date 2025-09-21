@@ -1,0 +1,50 @@
+﻿@model OnlinefoodDeliverySystem.Models.FoodData
+
+@{
+    ViewData["Title"] = "Edit Order";
+}
+
+<div class="container mt-4">
+    <h2 class="mb-4 text-center">✏ Edit Order</h2>
+
+    <form asp-action="Edit" method="post" class="p-4 shadow rounded bg-light">
+        <div class="mb-3">
+            <label asp-for="orderId" class="form-label"></label>
+            <input asp-for="orderId" class="form-control" readonly />
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="customerName" class="form-label"></label>
+            <input asp-for="customerName" class="form-control" />
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="restaurantName" class="form-label"></label>
+            <input asp-for="restaurantName" class="form-control" />
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="foodItem" class="form-label"></label>
+            <input asp-for="foodItem" class="form-control" />
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="totalPrice" class="form-label"></label>
+            <input asp-for="totalPrice" type="number" class="form-control" />
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="status" class="form-label"></label>
+            <select asp-for="status" class="form-select">
+                <option value="Pending">Pending</option>
+                <option value="Preparing">Preparing</option>
+                <option value="Delivered">Delivered</option>
+            </select>
+        </div>
+
+        <div class="text-end">
+            <button type="submit" class="btn btn-success me-2">💾 Save Changes</button>
+            <a asp-action="Orders" class="btn btn-secondary">⬅ Back</a>
+        </div>
+    </form>
+</div>
